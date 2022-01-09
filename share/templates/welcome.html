@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <!--Signup Modal-->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'signup' %}" method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="fname" class="form-label">Channel Name</label>
+                <input type="text" class="form-control" id="fname" name="fname">
+              </div>
+              
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="mail" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pwd" id="exampleInputPassword1">
+              </div>
+               <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+              </div>
+            </form>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+    <!--Login Modal-->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Channel Name</label>
+                <input type="text" class="form-control" name="uname" id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pwd" id="exampleInputPassword1">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+<div class=container-fluid>
+  <div class="row">
+    
+    <!-- <div class="col-12"> -->
+    <!--Welcome Content-->
+    <div class="col-12">
+      <!--Welcome Content-->
+      
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" >
+        <div class="carousel-indicators">
+          <span  data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" ></span>
+          {% for even in Eventd %}
+          <!-- • -->
+          <span  data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ even.id|add:-2 }}" class="active" ></span>
+          {% endfor %}
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static 'kt.png' %}" class="d-block w-100" alt="..." height=400>
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Welcome To Mr.K Videos</h5>
+              
+            </div>
+          </div>
+          
+          {% for even in Eventd %}
+          <div class="carousel-item ">
+            <img src="{{ even.imd.url }}" class="d-block w-100" alt="..." height=400>
+            <div class="carousel-caption d-none d-md-block">
+            <a style="color: black;text-decoration: none;"href="{{even.link}}" target="blank"><h5>{{even.detail}}</h5></a>
+              
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev"  carousel-control-width=1%; data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      </div>
+    </div>
+    </div>
+    
+   <!-- <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        {% for even in Eventd %}
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{even.id}}" aria-label="Slide {{even.id}}"></button>
+        {% endfor %}
+        </div>
+      <div class="carousel-inner">
+        
+        {% for even in Eventd %}
+        <div class="carousel-item">
+          <img src="{{ even.imd.url }}" class="d-block w-100" alt="...">
+        </div>
+        {% endfor %}
+        
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>-->
+    <!--<div class="container-fluid my-2" >
+       {% for even in Eventd %}
+        <div class="mySlides fade" style="border: 2px black solid;">
+          <div class="numbertext"></div>
+          <img src="{{ even.imd.url }}" style="width:600px ; height: 300px;" >
+          <div class="text"><h1>{{ even.detail }}</h1></div>
+        </div>
+      </div>
+        
+   
+        {% endfor %}
+        
+        <br>
+        
+        <div style="text-align:center">
+          {% for even in Eventd %}
+          <span class="dot"></span> 
+          {% endfor %}
+        </div>
+        
+        <script>
+          var slideIndex = 0;
+          showSlides();
+          
+          function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+          }
+          </script>
+      </div>-->
+    
+
+    <div class="container my-3">
+      <div class="row ">
+        {% for v in videos %}
+        <div class="col-lg-6 col-md-6 col-sm-12" >
+          
+        
+          
+            
+              <p class="mb-1" style="text-overflow: ellipsis; flex: 1;white-space: nowrap;overflow: hidden;border: 1px black solid;margin-top: 10px;border-radius: 15px;"><a style="text-decoration: none;" href="{% url 'watch_video' v.id %}" style="text-decoration: none;"> <img src="{{ v.thumbnail.url }}"  style="height:100px;width:200px;float: left;"><b style="margin-left: 10px;">{{v.title}}</b></a><br ><span style="margin-left: 10px;">{{v.desc}}</span><br><small style="margin-left: 10px;">{{v.pub_date}}</small></p>
+            
+            
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

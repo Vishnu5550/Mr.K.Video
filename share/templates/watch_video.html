@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<div class="container-fluid" style="padding-top: 10px;">
+  <div class="row" >
+
+  <div class="col-sm-12 col-md-8  col-lg-8" >
+      <div class="card my-2" style="border: 1px black solid;">
+      <div class="card-header" style="background-color: gray;">
+          <h6><b style="text-overflow: ellipsis; flex: 1;white-space: nowrap;overflow: hidden;">{{video.title}}</b></h6>
+      </div>
+      </div>
+            
+            <video  controls autoplay class="videowid" controlslist="nodownload" style="border: 1px black solid;">
+              <source src="{{ video.video_file.url }}" type="video/mp4">
+            </video>
+
+            
+
+        <div class="card w-auto" style="border: 1px black solid;">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 "  >
+                <span class="text-muted" style="margin-right:20%;">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+                  
+              <span style="padding-left: 0%;">
+              {% if is_liked %}
+              
+              <a  style="margin-left: 0px;border: 1px black solid;" id="like_btn" class="btn danger mx-3 "><span id="like_icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+              </svg></span>
+              
+              <span id="count_likes">{{video.likes.all.count}}</span>
+            </a>
+              {% else %}
+              
+              <a style="margin-left: 0px;" id="like_btn" class="btn danger mx-3 "><span id="like_icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+              </svg></span>
+            
+            <span id="count_likes">{{video.likes.all.count}}</span></a>
+              {% endif %}
+              </span>
+        
+              <a style="padding-left: 0%;"  href="{{ video.video_file.url }}" download="{{ video.title }}"><i class="fa fa-download" style="font-size:24px"></i></a>
+
+              
+
+                <a style="padding-left: 0%;" href="{% url 'report' video.id %}"><i class="bi bi-shield-fill-exclamation" style="color: rgb(255, 0, 0); font-size: 25px;"></i></a>
+                     
+              
+              <span style="margin-left: 0%;"><button  class="btn btn-outline-success mx-3 " data-bs-toggle="modal" data-bs-target="#ShareModal" >Share</button></span>
+      </div>
+           <p class="badge rounded-pill bg-info text-dark" >{{video.category}}</p>
+            <br>
+            
+            
+              
+              {% if val %}
+              <div class="row" >
+              <div class="col-12">
+                
+                
+                <img src="{{ user_data.profile_pic.url }}" class="" style="width: 50px;height: 50px;border-radius: 40%;"> 
+              
+              <a  style="text-decoration: none;color: cyan;padding-left: 10px;" href="{% url 'profile' session1.first_name %}" >{{session1.first_name}}</a>
+            
+              </div>
+              </div>
+              <!-- <div class="col-lg-2 col-sm-2" >
+                <button class="btn btn-outline-success mx-3" data-bs-toggle="modal" data-bs-target="#ShareModal" style="margin-left: 200px;">Share</button>
+      
+              </div> -->
+              
+        {% endif %}
+        
+        
+      </div>
+      </div>
+    </div>
+    <div >
+     
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo1">
+            <button style="margin-top: 10px;border: 1px black solid;border-radius: 10px;"class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo1" aria-expanded="false" aria-controls="flush-collapseTwo1">
+              <b>DESCRIPTION</b>
+            </button>
+          </h2>
+          <div id="flush-collapseTwo1" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo1" data-bs-parent="#accordionFlushExample">
+            <div class="container my-2" style="margin-top: 10px;border: 1px black solid;border-radius: 10px;">
+              <p>{{video.desc}}</p>
+            </div>
+            
+          </div>
+        </div>
+  
+      </div>
+      <div style="margin-bottom: 100px;"></div>
+    </div>
+
+</div>
+<div class="modal fade" id="ShareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Copy Url</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <code>127.0.0.1:8000{{ request.get_full_path }}</code>
+      </div>
+          
+    </div>
+  </div>
+</div>
+<div class="col-sm-12 col-md-4 col-lg-4" >
+  
+  
+    <h3>Up Next</h3>
+
+    <div class="" >
+      {% for v in video.user.videopost_set.all %}
+      <div style="border: 1px black solid;margin-top: 5px;border-radius: 5px;">
+      <a href="{% url 'watch_video' v.id %}" class="list-group-item list-group-item-action" aria-current="true">
+        <div class=" justify-content-between">
+          
+          <p class="mb-1" style="text-overflow: ellipsis; flex: 1;white-space: nowrap;overflow: hidden;"><img src="{{ v.thumbnail.url }}"  style="height:100px;width:100px;float: left;"><b>{{v.title}}</b><br>{{v.desc}}</p>
+          <small>{{v.pub_date}}</small>
+        </div>
+        
+
+      </a>
+      </div>
+      {% endfor %}
+     
+
+    </div>
+<br>
+  
+
+  <div >
+    <!--Comments of this video-->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingTwo">
+          <button style="border: 1px black solid;border-radius: 10px;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+            <b >COMMENTS (<span id='count_comment'>{{comments.count}}</span>)</b>
+          </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+          <div class="container my-2">
+            <ul class="list-group" id="menu">
+              {% for comment in comments %}
+              <b>{{comment}}</b>  
+              <li class="list-group-item">{{comment.comment}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% if val %}
+          <div class="accordion-body">
+            <form id="my_form">
+              <textarea class="form-control" name="comment" id="comment" placeholder="Write your comment..."></textarea>
+              <input class="btn btn-outline-success my-3" id="send_btn" type="submit" value="Comment">
+            </form>
+
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+var send_btn = $('#send_btn');
+send_btn.on('click', function(event){
+  event.preventDefault();
+  var comment = $('#comment').val();
+  var ul_menu = $('#menu');
+  var count_comment = $('#count_comment');
+
+  $.ajax({
+    type: 'GET',
+    url: '{% url "add_comment" %}',
+    data: {comment_text: comment, video_id: '{{video.id}}'},
+    dataType: 'json',
+    success: function(data){
+      if(data.comment)
+      {
+        var comment_res = data.comment;
+        var li_html = "<b>{{request.user}}</b><li class='list-group-item'>"+comment_res+"</li>";
+
+        ul_menu.prepend(li_html);
+        count_comment.text(data.count_comments);
+        $('#my_form').trigger('reset');
+
+      }
+
+    }
+
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+var like_btn = $('#like_btn');
+like_btn.on('click', function(event){
+  event.preventDefault();
+  var count_likes = $('#count_likes');
+  var like_icon = $('#like_icon');
+
+  $.ajax({
+    url: '{% url "add_like" video.id %}',
+    data: {},
+    dataType: 'json',
+    success: function(data){
+      if(data.is_liked)
+      {
+        like_icon.html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"><path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/></svg>');
+        count_likes.text(data.likes_count);
+      }
+      else
+      {
+        
+        like_icon.html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>');
+       count_likes.text(data.likes_count);
+     }
+
+   }
+ });
+});
+
+</script>
+
+{% endblock %}

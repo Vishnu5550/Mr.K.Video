@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container my-4">
+	<h3>Search Results: </h3>
+	<h2>Channels:</h2>
+	{% if user_obj %}
+	<div class="row">
+	{% for user in user_obj %}
+	<div class="col-lg-3 col-md-4 col-sm-12">
+	<div class="card my-3" style="width: 15rem; border-radius: 10;border: black 1px solid;" >
+		<img src="{{ user.userdata.profile_pic.url }}" class="img-thumbnail card-img-top" style="height: 100px;border-radius: 50% 50%;" alt="...">
+		<div class="card-body">
+			<h5 class="card-title">{{user.username}}</h5>
+			<!-- <p class="card-text">{{user.userdata.about|truncatewords:6}}</p> -->
+			<a href="{% url 'profile' user.username %}" class="btn btn-primary">View Profile</a>
+		</div>
+	</div>
+	</div>
+	{% endfor %}
+		
+	{% endif %}
+	<br>
+	{% if video_obj %}
+	</div>
+	<h2>Videos:</h2>
+	<div class="row">
+	{% for video in video_obj %}
+        <div class="col-lg-3 col-md-4 col-sm-12" style=" background-image: linear-gradient(to right,white,rgb(189, 189, 189),white ,rgb(177, 177, 177),white);">
+          
+          <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+            <img src="{{ video.thumbnail.url }}" class="w-100" style="height:150px;width:150px;border-radius: 20px;">
+          </a>
+          <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+            <h6 style="text-overflow: ellipsis; flex: 1;white-space: nowrap;overflow: hidden;color: black;">{{video.title}}</h6>  
+          </a>
+          <span class="text-muted" ><b>{{video.video_views.all.count}} views • {{video.pub_date}}</b></span>
+
+        </div>
+        {% endfor %}
+	
+	{% endif %}
+</div>	
+{% endblock %}
